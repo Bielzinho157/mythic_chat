@@ -13,6 +13,9 @@ This also contains the closet script that is used in the Mythic Apartment releas
 
 >NOTE: As with most MythicRP releases at this point, this has several calls to Mythic Framework resources that have not (and may not) released publicly. This is intended as a **dev resource** at most and not a simple drag & drop to use on public servers. **Do not make any issues asking for it to be made to work on a public framework or why it isn't plug n' play.**
 
+# WARNING
+This chat script shouldn't be used unless you know what you're doing to strip out the permission & job check from my framework stuff. These checks are done in 2 places, one when handling suggestions (in server/sv_chat.lua) and when actually using commands (in server/commands.lua)
+
 ## 311 & 911 Commands
 There are a few messages that need extra implementation to function, those would be 911 & 311. Below are my direct AddChatCommand calls which you can see make calls to client-events because I am getting the users positional stuff to dispaly on the alert.
 
