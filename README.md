@@ -1,5 +1,5 @@
 # Mythic Chat
-This is a chat script made for Mythic RP, it is a modified version of the base FiveM chat aswell as using the base styling from KrizFrost's Font Awesome Chat resource.
+This is a chat script made for Mythic RP, it is a heavily modified version of the base FiveM chat aswell as using the base styling from KrizFrost's Font Awesome Chat resource.
 
 This chat is fully integrated with Mythic Framework for using its permissions aswell as using jobs & job grades.
 
