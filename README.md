@@ -3,7 +3,7 @@ This is a chat script made for Mythic RP, it is a heavily modified version of th
 
 This chat is fully integrated with Mythic Framework for using its permissions aswell as using jobs & job grades.
 
-![Mythic Chat](https://i.imgur.com/gMOhH2s.png)
+![Mythic Chat](https://i.imgur.com/Arun56F.png)
 
 Dependencies :
 - Mythic Base - NOT PUBLICLY RELEASED
