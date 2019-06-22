@@ -59,8 +59,11 @@ function AddAdminChatCommand(command, callback, suggestion, arguments)
 
     RegisterCommand(command, function(source, args, rawCommand)
         local mPlayer = exports['mythic_base']:getPlayerFromId(source)
+        local mData = mPlayer.getPlayerData()
         if((#args <= commands[command].arguments and #args == commands[command].arguments) or commands[command].arguments == -1)then
-            callback(source, args, rawCommand)
+            if mData.perm_group == 'admin' then
+                callback(source, args, rawCommand)
+            end
         else
             TriggerEvent('mythic_chat:server:Server', source, "Invalid Number Of Arguments")
         end
@@ -91,6 +94,36 @@ end, {
     params = {{
             name = "Message",
             help = "The Message You Want To Send To Ad Channel"
+        }
+    }
+}, -1)
+
+AddChatCommand('311', function(source, args, rawCommand)
+    local mPlayer = exports['mythic_base']:getPlayerFromId(source)
+    local name = mPlayer.getChar().getName()
+    fal = name.first .. " " .. name.last
+    local msg = rawCommand:sub(5)
+    TriggerClientEvent('mythic_jobs:client:Do311Alert', source, fal, msg)
+end, {
+    help = "Non-Emergency Line",
+    params = {{
+            name = "Message",
+            help = "The Message You Want To Send To 311 Channel"
+        }
+    }
+}, -1)
+
+AddChatCommand('911', function(source, args, rawCommand)
+    local mPlayer = exports['mythic_base']:getPlayerFromId(source)
+    local name = mPlayer.getChar().getName()
+    fal = name.first .. " " .. name.last
+    local msg = rawCommand:sub(5)
+    TriggerClientEvent('mythic_jobs:client:Do911Alert', source, fal, msg)
+end, {
+    help = "Emergency Line",
+    params = {{
+            name = "Message",
+            help = "The Message You Want To Send To 911 Channel"
         }
     }
 }, -1)
