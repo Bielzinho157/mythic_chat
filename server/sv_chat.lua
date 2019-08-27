@@ -90,9 +90,8 @@ AddEventHandler('mythic_characters:server:CharacterSpawned', function()
     refreshCommands(source)
 end)
 
-AddEventHandler('onServerResourceStart', function(resName)
-    Wait(500)
-
+RegisterServerEvent('onResourceStart')
+AddEventHandler('onResourceStart', function(resource)
     for _, player in ipairs(GetPlayers()) do
         refreshCommands(player)
     end

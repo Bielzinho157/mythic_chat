@@ -19,22 +19,30 @@ function AddChatCommand(command, callback, suggestion, arguments, job)
 	end
 
     RegisterCommand(command, function(source, args, rawCommand)
-        local cData = exports['mythic_base']:getPlayerFromId(source).getChar().getCharData()
-        if((#args <= commands[command].arguments and #args == commands[command].arguments) or commands[command].arguments == -1)then
+        local mPlayer = exports['mythic_base']:getPlayerFromId(source)
+
+        if mPlayer ~= nil then
+            local cData = mPlayer.getChar().getCharData()
             if commands[command].job ~= nil then
                 for k, v in pairs(commands[command].job) do
                     if v['base'] == cData.job.base then
                         if tonumber(v['grade']) <= cData.job.grade then
-                            callback(source, args, rawCommand)
-                            break
+                            if((#args <= commands[command].arguments and #args == commands[command].arguments) or commands[command].arguments == -1)then
+                                callback(source, args, rawCommand)
+                                break
+                            else
+                                TriggerEvent('mythic_chat:server:Server', source, "Invalid Number Of Arguments")
+                            end
                         end
                     end
                 end
             else
-                callback(source, args, rawCommand)
+                if((#args <= commands[command].arguments and #args == commands[command].arguments) or commands[command].arguments == -1)then
+                    callback(source, args, rawCommand)
+                else
+                    TriggerEvent('mythic_chat:server:Server', source, "Invalid Number Of Arguments")
+                end
             end
-        else
-            TriggerEvent('mythic_chat:server:Server', source, "Invalid Number Of Arguments")
         end
     end, false)
 end
@@ -60,12 +68,12 @@ function AddAdminChatCommand(command, callback, suggestion, arguments)
     RegisterCommand(command, function(source, args, rawCommand)
         local mPlayer = exports['mythic_base']:getPlayerFromId(source)
         local mData = mPlayer.getPlayerData()
-        if((#args <= commands[command].arguments and #args == commands[command].arguments) or commands[command].arguments == -1)then
-            if mData.perm_group == 'admin' then
+        if mData.perm_group == 'admin' then
+            if((#args <= commands[command].arguments and #args == commands[command].arguments) or commands[command].arguments == -1)then
                 callback(source, args, rawCommand)
+            else
+                TriggerEvent('mythic_chat:server:Server', source, "Invalid Number Of Arguments")
             end
-        else
-            TriggerEvent('mythic_chat:server:Server', source, "Invalid Number Of Arguments")
         end
     end, false)
 end

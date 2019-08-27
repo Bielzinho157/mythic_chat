@@ -1,52 +1,58 @@
 AddEventHandler('chatMessage', function(source, n, message)
-    local char = exports['mythic_base']:getPlayerFromId(source).getChar()
-    if char ~= nil then
-        local cData = char.getCharData()
+    local mPlayer = exports['mythic_base']:getPlayerFromId(source)
+    
+    if mPlayer ~= nil then
+        local char = mPlayer.getChar()
+        if char ~= nil then
+            local cData = char.getCharData()
 
-        if(starts_with(message, '/'))then
-            local command_args = stringsplit(message, " ")
+            if(starts_with(message, '/'))then
+                local command_args = stringsplit(message, " ")
 
-            command_args[1] = string.gsub(command_args[1], '/', "")
+                command_args[1] = string.gsub(command_args[1], '/', "")
 
-            local commandName = command_args[1]
+                local commandName = command_args[1]
 
-            if commands[commandName] ~= nil then
-                if commands[commandName].job ~= nil then
-                    for k, v in pairs(commands[commandName].job) do
-                        if cData.job.base == v.base then
-                            local command = commands[commandName]
+                if commands[commandName] ~= nil then
+                    if commands[commandName].job ~= nil then
+                        for k, v in pairs(commands[commandName].job) do
+                            if cData.job.base == v.base then
+                                local command = commands[commandName]
+                            end
                         end
+                    else
+                        local command = commands[commandName]
                     end
-                else
-                    local command = commands[commandName]
-                end
 
-                if(command)then
-                    local Source = source
-                    CancelEvent()
-                    table.remove(command_args, 1)
-                    if (not (command.arguments <= (#command_args - 1)) and command.arguments > -1) then
-                        TriggerEvent('mythic_chat:server:Server', source, "Invalid Number Of Arguments")
+                    if(command)then
+                        local Source = source
+                        CancelEvent()
+                        table.remove(command_args, 1)
+                        if (not (command.arguments <= (#command_args - 1)) and command.arguments > -1) then
+                            TriggerEvent('mythic_chat:server:Server', source, "Invalid Number Of Arguments")
+                        end
+                    else
+                        TriggerEvent('mythic_chat:server:Server', source, "Invalid Command Handler")
                     end
                 else
-                    TriggerEvent('mythic_chat:server:Server', source, "Invalid Command Handler")
+                    TriggerEvent('mythic_chat:server:Server', source, "Invalid Command")
                 end
             else
-                TriggerEvent('mythic_chat:server:Server', source, "Invalid Command")
+                local mPlayer = exports['mythic_base']:getPlayerFromId(source)
+                local char = mPlayer.getChar()
+                local name = char.getName()
+
+                fal = name.first .. " " .. name.last
+                TriggerClientEvent('chat:addMessage', -1, {
+                    template = '<div class="chat-message"><div class="chat-message-header">[OOC] {0}:</div><div class="chat-message-body">{1}</div></div>',
+                    args = { fal, message }
+                })
             end
         else
-            local mPlayer = exports['mythic_base']:getPlayerFromId(source)
-            local char = mPlayer.getChar()
-            local name = char.getName()
-
-            fal = name.first .. " " .. name.last
-            TriggerClientEvent('chat:addMessage', -1, {
-                template = '<div class="chat-message"><div class="chat-message-header">[OOC] {0}:</div><div class="chat-message-body">{1}</div></div>',
-                args = { fal, message }
-            })
+            
         end
+        CancelEvent()
     end
-    CancelEvent()
 end)
 
 RegisterServerEvent('mythic_chat:server:Server')
