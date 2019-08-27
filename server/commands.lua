@@ -74,6 +74,9 @@ function AddAdminChatCommand(command, callback, suggestion, arguments)
             else
                 TriggerEvent('mythic_chat:server:Server', source, "Invalid Number Of Arguments")
             end
+        else
+            exports['mythic_pwnzor']:PlayerLog(GetCurrentResourceName(), mPlayer, 'Player That Isn\'t An Admin Attempted To Use An Admin Command. Command: ' .. command)
+            exports['mythic_pwnzor']:CheatLog(GetCurrentResourceName(), 'Player That Isn\'t An Admin Attempted To Use An Admin Command. Command: ' .. command .. ' User ID: '.. mData.userId)
         end
     end, false)
 end

@@ -7,6 +7,7 @@ This chat is fully integrated with Mythic Framework for using its permissions as
 
 Dependencies :
 - Mythic Base - NOT PUBLICLY RELEASED
+- Mythic Pwnzor - NOT PUBLICLY RELEASED
 - Mythic Jobs [For 311 & 911] - NOT PUBLICLY RELEASED
 
 >NOTE: As with most MythicRP releases at this point, this has several calls to Mythic Framework resources that have not (and may not) released publicly. This is intended as a **dev resource** at most and not a simple drag & drop to use on public servers. **Do not make any issues asking for it to be made to work on a public framework or why it isn't plug n' play.**

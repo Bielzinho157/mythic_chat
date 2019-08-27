@@ -46,6 +46,11 @@ server_exports {
   'AddAdminChatCommand',
 }
 
+dependencies {
+  'mythic_base',
+  'mythic_pwnzor',
+}
+
 chat_theme 'gtao' {
     styleSheet = 'style.css',
     msgTemplates = {
