@@ -20,8 +20,8 @@ There are a few messages that need extra implementation to function, those would
 
 ```lua
 AddChatCommand('311', function(source, args, rawCommand)
-    local mPlayer = exports['mythic_base']:getPlayerFromId(source)
-    local name = mPlayer.getChar().getName()
+    local mPlayer = exports['mythic_base']:GetComponent('Fetch'):Source(source)
+    local name = mPlayer:GetVar('character'):getName()
     fal = name.first .. " " .. name.last
     local msg = rawCommand:sub(5)
     TriggerClientEvent('mythic_jobs:client:Do311Alert', source, fal, msg)
@@ -35,8 +35,8 @@ end, {
 }, -1)
 
 AddChatCommand('911', function(source, args, rawCommand)
-    local mPlayer = exports['mythic_base']:getPlayerFromId(source)
-    local name = mPlayer.getChar().getName()
+    local mPlayer = exports['mythic_base']:GetComponent('Fetch'):Source(source)
+    local name = mPlayer:GetVar('character'):getName()
     fal = name.first .. " " .. name.last
     local msg = rawCommand:sub(5)
     TriggerClientEvent('mythic_jobs:client:Do911Alert', source, fal, msg)

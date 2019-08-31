@@ -1,10 +1,10 @@
 AddEventHandler('chatMessage', function(source, n, message)
-    local mPlayer = exports['mythic_base']:getPlayerFromId(source)
+    local mPlayer = exports['mythic_base']:FetchComponent('Fetch'):Source(source)
     
     if mPlayer ~= nil then
-        local char = mPlayer.getChar()
+        local char = mPlayer:GetData('character')
         if char ~= nil then
-            local cData = char.getCharData()
+            local cData = char:GetData()
 
             if(starts_with(message, '/'))then
                 local command_args = stringsplit(message, " ")
@@ -38,9 +38,9 @@ AddEventHandler('chatMessage', function(source, n, message)
                     TriggerEvent('mythic_chat:server:Server', source, "Invalid Command")
                 end
             else
-                local mPlayer = exports['mythic_base']:getPlayerFromId(source)
-                local char = mPlayer.getChar()
-                local name = char.getName()
+                local mPlayer = exports['mythic_base']:FetchComponent('Fetch'):Source(source)
+                local char = mPlayer:GetData('character')
+                local name = char:getName()
 
                 fal = name.first .. " " .. name.last
                 TriggerClientEvent('chat:addMessage', -1, {
@@ -102,11 +102,11 @@ end)
 
 RegisterServerEvent('mythic_chat:server:311Alert')
 AddEventHandler('mythic_chat:server:311Alert', function(name, location, message)
-    local players = exports['mythic_base']:getPlayers()
+    local players = exports['mythic_base']:FetchComponent('Fetch').All()
     for i = 1, #players, 1 do
-        local cData = exports['mythic_base']:getPlayerFromId(players[i]).getChar().getCharData()
+        local cData = exports['mythic_base']:FetchComponent('Fetch'):Source(players[i]):GetData('character'):GetData()
         if cData.job.base == 'police' or cData.job.base == 'ems' or players[i] == source then
-            TriggerClientEvent('chat:addMessage', exports['mythic_base']:getPlayerFromId(players[i]).getSource(), {
+            TriggerClientEvent('chat:addMessage', exports['mythic_base']:FetchComponent('Fetch'):Source(players[i]):GetData('source'), {
                 template = '<div class="chat-message nonemergency"><div class="chat-message-header">[311] | Caller : {0} | Location : {1}</div><div class="chat-message-body">{2}</div></div>',
                 args = { name, location, message }
             })
@@ -118,11 +118,11 @@ end)
 
 RegisterServerEvent('mythic_chat:server:911Alert')
 AddEventHandler('mythic_chat:server:911Alert', function(name, location, message)
-    local players = exports['mythic_base']:getPlayers()
+    local players = exports['mythic_base']:FetchComponent('Fetch').All()
     for i = 1, #players, 1 do
-        local cData = exports['mythic_base']:getPlayerFromId(players[i]).getChar().getCharData()
+        local cData = exports['mythic_base']:FetchComponent('Fetch'):Source(players[i]):GetData('character'):GetData()
         if cData.job.base == 'police' or i == source then
-            TriggerClientEvent('chat:addMessage', exports['mythic_base']:getPlayerFromId(players[i]).getSource(), {
+            TriggerClientEvent('chat:addMessage', exports['mythic_base']:FetchComponent('Fetch'):Source(players[i]):GetData('source'), {
                 template = '<div class="chat-message emergency"><div class="chat-message-header">[911] | Caller : {0} | Location : {1}</div><div class="chat-message-body">{2}</div></div>',
                 args = { name, location, message }
             })
@@ -134,11 +134,11 @@ end)
 
 RegisterServerEvent('mythic_chat:server:PoliceDispatch')
 AddEventHandler('mythic_chat:server:PoliceDispatch', function(code, gender, locale, message)
-    local players = exports['mythic_base']:getPlayers()
+    local players = exports['mythic_base']:FetchComponent('Fetch').All()
     for i = 1, #players, 1 do
-        local cData = exports['mythic_base']:getPlayerFromId(players[i]).getChar().getCharData()
+        local cData = exports['mythic_base']:FetchComponent('Fetch'):Source(players[i]):GetData('character'):GetData()
         if cData.job.base == 'police' then
-            TriggerClientEvent('chat:addMessage', exports['mythic_base']:getPlayerFromId(players[i]).getSource(), {
+            TriggerClientEvent('chat:addMessage', exports['mythic_base']:FetchComponent('Fetch'):Source(players[i]):GetData('source'), {
                 template = '<div class="chat-message emergency"><div class="chat-message-header">[911 Dispatch] | {0} - {1} | Location : {2}</div><div class="chat-message-body">{3}</div></div>',
                 args = { code, gender, locale, message }
             })
@@ -150,11 +150,11 @@ end)
 
 RegisterServerEvent('mythic_chat:server:EmergencyDispatch')
 AddEventHandler('mythic_chat:server:EmergencyDispatch', function(name, location, message)
-    local players = exports['mythic_base']:getPlayers()
+    local players = exports['mythic_base']:FetchComponent('Fetch').All()
     for i = 1, #players, 1 do
-        local cData = exports['mythic_base']:getPlayerFromId(players[i]).getChar().getCharData()
+        local cData = exports['mythic_base']:FetchComponent('Fetch'):Source(players[i]):GetData('character'):GetData()
         if cData.job.base == 'police' or cData.job.base == 'ems' then
-            TriggerClientEvent('chat:addMessage', exports['mythic_base']:getPlayerFromId(players[i]).getSource(), {
+            TriggerClientEvent('chat:addMessage', exports['mythic_base']:FetchComponent('Fetch'):Source(players[i]):GetData('source'), {
                 template = '<div class="chat-message nonemergency"><div class="chat-message-header">[311 Dispatch] | Caller : {0} | Location : {1}</div><div class="chat-message-body">{2}</div></div>',
                 args = { name, location, message }
             })

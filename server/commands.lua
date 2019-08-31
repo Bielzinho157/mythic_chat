@@ -19,10 +19,10 @@ function AddChatCommand(command, callback, suggestion, arguments, job)
 	end
 
     RegisterCommand(command, function(source, args, rawCommand)
-        local mPlayer = exports['mythic_base']:getPlayerFromId(source)
+        local mPlayer = exports['mythic_base']:FetchComponent('Fetch'):Source(source)
 
         if mPlayer ~= nil then
-            local cData = mPlayer.getChar().getCharData()
+            local cData = mPlayer:GetData('character'):GetData()
             if commands[command].job ~= nil then
                 for k, v in pairs(commands[command].job) do
                     if v['base'] == cData.job.base then
@@ -66,17 +66,17 @@ function AddAdminChatCommand(command, callback, suggestion, arguments)
 	end
 
     RegisterCommand(command, function(source, args, rawCommand)
-        local mPlayer = exports['mythic_base']:getPlayerFromId(source)
-        local mData = mPlayer.getPlayerData()
-        if mData.perm_group == 'admin' then
+        local mPlayer = exports['mythic_base']:FetchComponent('Fetch'):Source(source)
+        local mData = mPlayer:GetData('data')
+        if mData.perm == 'admin' then
             if((#args <= commands[command].arguments and #args == commands[command].arguments) or commands[command].arguments == -1)then
                 callback(source, args, rawCommand)
             else
                 TriggerEvent('mythic_chat:server:Server', source, "Invalid Number Of Arguments")
             end
         else
-            exports['mythic_pwnzor']:PlayerLog('Mythic Chat', mPlayer, 'Player That Isn\'t An Admin Attempted To Use An Admin Command. | Details [ Command: ' .. command .. ' ]')
-            exports['mythic_pwnzor']:CheatLog('Mythic Chat', 'Player That Isn\'t An Admin Attempted To Use An Admin Command. | Details [ Command: ' .. command .. ' User ID: '.. mData.userId .. ' ]')
+            exports['mythic_base']:FetchComponent('PwnzorLog'):PlayerLog('Mythic Chat', mPlayer, 'Player That Isn\'t An Admin Attempted To Use An Admin Command. | Details [ Command: ' .. command .. ' ]')
+            exports['mythic_base']:FetchComponent('PwnzorLog'):CheatLog('Mythic Chat', 'Player That Isn\'t An Admin Attempted To Use An Admin Command. | Details [ Command: ' .. command .. ' User ID: '.. mData.id .. ' ]')
         end
     end, false)
 end
@@ -95,8 +95,8 @@ end, {
 })
 
 AddChatCommand('ad', function(source, args, rawCommand)
-    local mPlayer = exports['mythic_base']:getPlayerFromId(source)
-    local cData = mPlayer.getChar().getCharData()
+    local mPlayer = exports['mythic_base']:FetchComponent('Fetch'):Source(source)
+    local cData = mPlayer:GetData('character'):GetData()
     fal = cData.firstName .. ' ' .. cData.lastName
     local msg = rawCommand:sub(4)
     TriggerEvent('mythic_chat:server:Advert', fal, cData.phone, msg)
@@ -110,8 +110,8 @@ end, {
 }, -1)
 
 AddChatCommand('311', function(source, args, rawCommand)
-    local mPlayer = exports['mythic_base']:getPlayerFromId(source)
-    local name = mPlayer.getChar().getName()
+    local mPlayer = exports['mythic_base']:FetchComponent('Fetch'):Source(source)
+    local name = mPlayer:GetData('character'):getName()
     fal = name.first .. " " .. name.last
     local msg = rawCommand:sub(5)
     TriggerClientEvent('mythic_jobs:client:Do311Alert', source, fal, msg)
@@ -125,8 +125,8 @@ end, {
 }, -1)
 
 AddChatCommand('911', function(source, args, rawCommand)
-    local mPlayer = exports['mythic_base']:getPlayerFromId(source)
-    local name = mPlayer.getChar().getName()
+    local mPlayer = exports['mythic_base']:FetchComponent('Fetch'):Source(source)
+    local name = mPlayer:GetData('character'):getName()
     fal = name.first .. " " .. name.last
     local msg = rawCommand:sub(5)
     TriggerClientEvent('mythic_jobs:client:Do911Alert', source, fal, msg)

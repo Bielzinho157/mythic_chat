@@ -33,17 +33,17 @@ end)
 
 -- command suggestions for clients
 local function refreshCommands(player)
-    local mPlayer = exports['mythic_base']:getPlayerFromId(player)
+    local mPlayer = exports['mythic_base']:FetchComponent('Fetch'):Source(player)
 
     if mPlayer ~= nil then
-        if mPlayer.getActiveChar() ~= -1 then
-            local mData = mPlayer.getPlayerData()
-            local cData = mPlayer.getChar().getCharData()
+        if mPlayer:GetData('active_char') ~= -1 then
+            local mData = mPlayer:GetData('data')
+            local cData = mPlayer:GetData('character'):GetData()
             for k, command in pairs(commandSuggestions) do
                 if IsPlayerAceAllowed(player, ('command.%s'):format(k)) then
                     if commands[k] ~= nil then
                         if commands[k].admin then
-                            if mData.perm_group == 'admin' then
+                            if mData.perm == 'admin' then
                                 TriggerClientEvent('chat:addSuggestion', player, '/' .. k, command.help, command.params)
                             else
                                 TriggerClientEvent('chat:removeSuggestion', player, '/' .. k)
@@ -79,14 +79,14 @@ AddEventHandler('chat:init', function()
     --refreshCommands(source)
 end)
 
-RegisterServerEvent('mythic_characters:server:Logout')
-AddEventHandler('mythic_characters:server:Logout', function()
+RegisterServerEvent('mythic_base:server:Logout')
+AddEventHandler('mythic_base:server:Logout', function()
     TriggerClientEvent('chat:resetSuggestions', source)
     --refreshCommands(source)
 end)
 
-RegisterServerEvent('mythic_characters:server:CharacterSpawned')
-AddEventHandler('mythic_characters:server:CharacterSpawned', function()
+RegisterServerEvent('mythic_base:server:CharacterSpawned')
+AddEventHandler('mythic_base:server:CharacterSpawned', function()
     refreshCommands(source)
 end)
 
