@@ -53,6 +53,7 @@ AddEventHandler('chatMessage', function(source, n, message)
         end
         CancelEvent()
     end
+    CancelEvent()
 end)
 
 RegisterServerEvent('mythic_chat:server:Server')
@@ -161,6 +162,15 @@ AddEventHandler('mythic_chat:server:EmergencyDispatch', function(name, location,
         end
     end
 
+    CancelEvent()
+end)
+
+RegisterServerEvent('mythic_chat:server:Help')
+AddEventHandler('mythic_chat:server:Help', function(source, message)
+    TriggerClientEvent('chat:addMessage', source, {
+        template = '<div class="chat-message help"><div class="chat-message-header">[INFO]</div><div class="chat-message-body">{0}</div></div>',
+        args = { message }
+    })
     CancelEvent()
 end)
 

@@ -8,7 +8,6 @@
 .color-6{color: #aa66cc;}
 .color-8{color: #cc0000;}
 .color-9{color: #cc0068;}
-    src: url("../BarlowCondensed.ttf");
 
 * {
   font-family: 'Barlow Condensed', sans-serif;
@@ -148,4 +147,9 @@ textarea:focus, input:focus {
 
 .chat-message.nonemergency {
   background-color: rgba(112, 25, 25, 0.8);
+}
+
+.chat-message.help {
+  background-color: rgba(109, 80, 240, 0.8);
+  color: #ffffff;
 }
