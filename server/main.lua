@@ -1,3 +1,10 @@
+MYTH = MYTH or {}
+MYTH.Chat = MYTH.Chat or {}
+
+AddEventHandler('mythic_base:shared:ComponentRegisterReady', function()
+    exports['mythic_base']:CreateComponent('Chat', MYTH.Chat)
+end)
+
 AddEventHandler('chatMessage', function(source, n, message)
     local mPlayer = exports['mythic_base']:FetchComponent('Fetch'):Source(source)
     

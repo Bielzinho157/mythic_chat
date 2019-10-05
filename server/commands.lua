@@ -1,5 +1,6 @@
---[[ Add Command Functions & Events ]]--
-function AddChatCommand(command, callback, suggestion, arguments, job)
+
+
+function MYTH.Chat.RegisterCommand(this, command, callback, suggestion, arguments, job)
     if job ~= nil then
         if job.grade ~= nil then
             job.grade = 1
@@ -11,7 +12,7 @@ function AddChatCommand(command, callback, suggestion, arguments, job)
     commands[command].arguments = arguments or -1
     commands[command].job = job
 
-	if suggestion then
+	if suggestion ~= nil then
 		if not suggestion.params or not type(suggestion.params) == "table" then suggestion.params = {} end
 		if not suggestion.help or not type(suggestion.help) == "string" then suggestion.help = "" end
 
@@ -47,12 +48,7 @@ function AddChatCommand(command, callback, suggestion, arguments, job)
     end, false)
 end
 
-RegisterServerEvent('mythic_chat:server:AddChatCommand')
-AddEventHandler('mythic_chat:server:AddChatCommand', function(command, callback, suggestion, arguments, job)
-    AddChatCommand(command, callback, suggestion, arguments, job)
-end)
-
-function AddAdminChatCommand(command, callback, suggestion, arguments)
+function MYTH.Chat.RegisterAdminCommand(this, command, callback, suggestion, arguments)
 	commands[command] = {}
 	commands[command].cmd = callback
     commands[command].arguments = arguments or -1
@@ -81,20 +77,14 @@ function AddAdminChatCommand(command, callback, suggestion, arguments)
     end, false)
 end
 
-RegisterServerEvent('mythic_chat:server:AddAdminChatCommand')
-AddEventHandler('mythic_chat:server:AddAdminChatCommand', function(command, callback, suggestion, arguments)
-    AddAdminChatCommand(command, callback, suggestion, arguments)
-end)
-
 --[[ COMMANDS ]]--
-
-AddChatCommand('clear', function(source, args, rawCommand)
+MYTH.Chat:RegisterCommand('clear', function(source, args, rawCommand)
     TriggerClientEvent('mythic_chat:client:ClearChat', source)
 end, {
     help = "Clear The Chat"
 })
 
-AddChatCommand('ad', function(source, args, rawCommand)
+MYTH.Chat:RegisterCommand('ad', function(source, args, rawCommand)
     local mPlayer = exports['mythic_base']:FetchComponent('Fetch'):Source(source)
     local cData = mPlayer:GetData('character'):GetData()
     fal = cData.firstName .. ' ' .. cData.lastName
@@ -109,7 +99,7 @@ end, {
     }
 }, -1)
 
-AddChatCommand('311', function(source, args, rawCommand)
+MYTH.Chat:RegisterCommand('311', function(source, args, rawCommand)
     local mPlayer = exports['mythic_base']:FetchComponent('Fetch'):Source(source)
     local name = mPlayer:GetData('character'):getName()
     fal = name.first .. " " .. name.last
@@ -124,7 +114,7 @@ end, {
     }
 }, -1)
 
-AddChatCommand('911', function(source, args, rawCommand)
+MYTH.Chat:RegisterCommand('911', function(source, args, rawCommand)
     local mPlayer = exports['mythic_base']:FetchComponent('Fetch'):Source(source)
     local name = mPlayer:GetData('character'):getName()
     fal = name.first .. " " .. name.last
@@ -140,7 +130,7 @@ end, {
 }, -1)
 
 --[[ ADMIN-RESTRICTED COMMANDS ]]--
-AddAdminChatCommand('server', function(source, args, rawCommand)
+MYTH.Chat:RegisterAdminCommand('server', function(source, args, rawCommand)
     TriggerEvent('mythic_chat:server:Server', source, rawCommand:sub(8))
 end, {
     help = "Test",
@@ -151,7 +141,7 @@ end, {
     }
 }, -1)
 
-AddAdminChatCommand('system', function(source, args, rawCommand)
+MYTH.Chat:RegisterAdminCommand('system', function(source, args, rawCommand)
     TriggerEvent('mythic_chat:server:System', source, rawCommand:sub(8))
 end, {
     help = "Test",

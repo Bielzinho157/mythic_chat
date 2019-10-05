@@ -35,15 +35,10 @@ client_scripts {
 }
 
 server_scripts {
+  'server/main.lua',
+  'server/sv_chat.lua',
   'server/utils.lua',
   'server/commands.lua',
-  'server/sv_chat.lua',
-  'server/main.lua',
-}
-
-server_exports {
-  'AddChatCommand',
-  'AddAdminChatCommand',
 }
 
 dependencies {
