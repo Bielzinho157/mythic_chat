@@ -99,9 +99,18 @@ textarea:focus, input:focus {
   width: 100%;
 }
 
-.help {
-  margin-top: -10px;
+.suggestion:first-child {
+  margin-top: 5px;
+}
+
+small.help {
+  padding-left: 10px;
   color: #aaaaaa;
+}
+
+small.help::before {
+  content: '*';
+  color: rgba(255, 0, 0, 0.62);
 }
 
 .disabled {
