@@ -44,26 +44,29 @@ AddEventHandler('chatMessage', function(source, n, message)
                 else
                     TriggerEvent('mythic_chat:server:Server', source, "Invalid Command")
                 end
-            else
-                local mPlayer = exports['mythic_base']:FetchComponent('Fetch'):Source(source)
-                local char = mPlayer:GetData('character')
-                local name = char:getName()
-
-                fal = name.first .. " " .. name.last
-                TriggerClientEvent('chat:addMessage', -1, {
-                    template = '<div class="chat-message"><div class="chat-message-header">[OOC] {0}:</div><div class="chat-message-body">{1}</div></div>',
-                    args = { fal, message }
-                })
             end
-        else
-            
         end
-        CancelEvent()
     end
     CancelEvent()
 end)
 
-RegisterServerEvent('mythic_chat:server:Server')
+AddEventHandler('mythic_chat:server:OOC', function(source, message)
+    local mPlayer = exports['mythic_base']:FetchComponent('Fetch'):Source(source)
+    if mPlayer ~= nil then
+        local char = mPlayer:GetData('character')
+        if char ~= nil then
+            local name = char:getName()
+        
+            fal = name.first .. " " .. name.last
+            TriggerClientEvent('chat:addMessage', -1, {
+                template = '<div class="chat-message"><div class="chat-message-header">[OOC] {0}:</div><div class="chat-message-body">{1}</div></div>',
+                args = { fal, message }
+            })
+        end
+    end
+    CancelEvent()
+end)
+
 AddEventHandler('mythic_chat:server:Server', function(source, message)
     TriggerClientEvent('chat:addMessage', source, {
         template = '<div class="chat-message server"><div class="chat-message-header">[SERVER]</div><div class="chat-message-body">{0}</div></div>',
@@ -72,7 +75,6 @@ AddEventHandler('mythic_chat:server:Server', function(source, message)
     CancelEvent()
 end)
 
-RegisterServerEvent('mythic_chat:server:ServerToAll')
 AddEventHandler('mythic_chat:server:ServerToAll', function(message)
     TriggerClientEvent('chat:addMessage', -1, {
         template = '<div class="chat-message server"><div class="chat-message-header">[SERVER]</div><div class="chat-message-body">{0}</div></div>',
@@ -81,7 +83,6 @@ AddEventHandler('mythic_chat:server:ServerToAll', function(message)
     CancelEvent()
 end)
 
-RegisterServerEvent('mythic_chat:server:System')
 AddEventHandler('mythic_chat:server:System', function(source, message)
     TriggerClientEvent('chat:addMessage', source, {
         template = '<div class="chat-message system"><div class="chat-message-header">[SYSTEM]</div><div class="chat-message-body">{0}</div></div>',
@@ -90,20 +91,10 @@ AddEventHandler('mythic_chat:server:System', function(source, message)
     CancelEvent()
 end)
 
-RegisterServerEvent('mythic_chat:server:SystemToAll')
 AddEventHandler('mythic_chat:server:SystemToAll', function(message)
     TriggerClientEvent('chat:addMessage', -1, {
         template = '<div class="chat-message system"><div class="chat-message-header">[SYSTEM]</div><div class="chat-message-body">{0}</div></div>',
         args = { message }
-    })
-    CancelEvent()
-end)
-
-RegisterServerEvent('mythic_chat:server:Advert')
-AddEventHandler('mythic_chat:server:Advert', function(name, phone, message)
-    TriggerClientEvent('chat:addMessage', -1, {
-        template = '<div class="chat-message advert"><div class="chat-message-header"><i class="fas fa-ad"></i> Advertisement: {0} | {1}</div><div class="chat-message-body">{2}</div></div>',
-        args = { name, phone, message }
     })
     CancelEvent()
 end)
@@ -140,7 +131,6 @@ AddEventHandler('mythic_chat:server:911Alert', function(name, location, message)
     CancelEvent()
 end)
 
-RegisterServerEvent('mythic_chat:server:PoliceDispatch')
 AddEventHandler('mythic_chat:server:PoliceDispatch', function(code, gender, locale, message)
     local players = exports['mythic_base']:FetchComponent('Fetch').All()
     for i = 1, #players, 1 do
@@ -156,7 +146,6 @@ AddEventHandler('mythic_chat:server:PoliceDispatch', function(code, gender, loca
     CancelEvent()
 end)
 
-RegisterServerEvent('mythic_chat:server:EmergencyDispatch')
 AddEventHandler('mythic_chat:server:EmergencyDispatch', function(name, location, message)
     local players = exports['mythic_base']:FetchComponent('Fetch').All()
     for i = 1, #players, 1 do

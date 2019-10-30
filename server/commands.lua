@@ -84,17 +84,15 @@ end, {
     help = "Clear The Chat"
 })
 
-MYTH.Chat:RegisterCommand('ad', function(source, args, rawCommand)
-    local mPlayer = exports['mythic_base']:FetchComponent('Fetch'):Source(source)
-    local cData = mPlayer:GetData('character'):GetData()
-    fal = cData.firstName .. ' ' .. cData.lastName
-    local msg = rawCommand:sub(4)
-    TriggerEvent('mythic_chat:server:Advert', fal, cData.phone, msg)
+MYTH.Chat:RegisterCommand('ooc', function(source, args, rawCommand)
+    if #rawCommand:sub(4) > 0 then
+        TriggerEvent('mythic_chat:server:OOC', source, rawCommand:sub(4))
+    end
 end, {
-    help = "Post An Ad For A Service You're Offering",
+    help = "Out of Character Chat, THIS IS NOT A SUPPORT CHAT",
     params = {{
             name = "Message",
-            help = "The Message You Want To Send To Ad Channel"
+            help = "The Message You Want To Send To The OOC Channel"
         }
     }
 }, -1)
